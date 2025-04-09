@@ -1,30 +1,36 @@
-site_name: System Desing Multilang
+# Project information
+site_name: system-design-multilang
 site_url: https://github.com/diptu/system-design-multilang
+site_author: Nazmul Alam
+site_description: >-
+  My digital laboratory for mastering system Design through regular practice in multiple programming language.
+
+# Repository
+repo_name: diptu/system-design-multilang
+repo_url: https://github.com/diptu/system-design-multilang
+
+# Copyright
+copyright: Copyright &copy; 2025 - 2025 Nazmul Alam
+
+# Configuration
 theme:
   name: material
-  font:
-    text: Merriweather Sans
-    code: Red Hat Mono
-  logo:fontawesome-solid-book:
-  features:
-    - navigation.footer
-  palette:
-    # Dark Mode
-    - scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Dark mode
-      primary: green
-      accent: deep purple
+  palette: 
 
-    # Light Mode
+    # Palette toggle for light mode
     - scheme: default
       toggle:
-        icon: material/weather-night
-        name: Light mode
-      primary: blue
-      accent: deep orange
+        icon: material/brightness-7 
+        name: Switch to dark mode
 
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.annotate
+    - content.code.copy
 markdown_extensions:
   - attr_list
   - pymdownx.emoji:
@@ -46,4 +52,11 @@ markdown_extensions:
   - admonition
   - pymdownx.details
 
-copyright: Copyright &copy; 2024 James Willett
+# Page tree
+nav:
+  - Home: index.md
+  - Getting started:
+    - user guide: ./system-desing/getting-started.md
+  - System Design:
+      - Topics : ./system-desing/index.md
+  - License: LICENSE.md
