@@ -12,3 +12,4 @@ See firsthand how fundamental design choices translate across different tech sta
   
 * [Section 2: system Degign 101](./system-desing/index.md)
     * [Subsection 2.1: Crud app with rest api](./system-desing/crud-app/README.md)
+
