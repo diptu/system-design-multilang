@@ -80,7 +80,7 @@
     The provided output shows the following:
     10.9.2
 
-!!! Example "Initialize a new Node.js project"
+??? Example "Initialize a new Node.js project"
     Inside server directory run the following command to initialize a Node.js project.
     ```bash
     npm init -y
@@ -166,10 +166,10 @@ app.listen(3000, ()=>{
 node src/index.js
 ```
 ## Package Installation
-1. Nodemon
+1. [Nodemon](#nodemon)
+2. [morgan](#morgan)
 
 ??? info " Why Use Nodemon?"
-
     * **Automatic Restarts:** The primary benefit of Nodemon is its ability to **automatically restart** your Node.js server upon saving changes to your files. This saves you valuable development time and allows you to focus on coding.
     * **No Code Changes Required:** Nodemon is designed to be a seamless replacement for the `node` command. You **don't need to modify your existing Node.js code** to use it.
     * **Improved Development Experience:** By automating the server restart process, Nodemon provides a smoother and more efficient development experience.
@@ -181,11 +181,22 @@ node src/index.js
     npm install --save-dev nodemon
     ```
 
-    ```json title="package.json" linenums="14"
-     "devDependencies": {
-        "nodemon": "^3.1.9"
-    }
+??? info " Why Use Morgan?"
+
+    Morgan is a popular Node.js logging middleware that provides a simple way to log HTTP requests and responses.
+    * **HTTP Request and Response Logging:** Morgan logs HTTP requests and responses, making it easier to monitor and debug your application.
+  
+    ```bash
+    npm install --save-dev morgan
     ```
+
+
+```json title="package.json" linenums="14" hl_lines="2-3"
+    "devDependencies": {
+        "morgan": "^1.10.0",
+        "nodemon": "^3.1.9"
+}
+```
 Add the following lines to script section:
 ```json title="package.json" linenums="5" hl_lines="2-3"
 "scripts": {
@@ -205,3 +216,49 @@ will run the commad `node ./src/index.js`
 npm run dev
 ```
 will run the commad `nodemon ./src/index.js`
+
+
+### Create a HTTP request
+
+```javascript title="index.js" linenums="1" hl_lines="4-10"
+const express = require('express');
+const app = express()
+
+app.get('/products', (req, res) => {
+    res.status(200).send(
+         {
+            'success': true,
+            'msg':'products is returned'}
+        );
+  })
+app.listen(3000, ()=>{
+    console.log(`server is running on http://localhost:3000`);
+})
+```
+
+Now let's the Development Application with Nodemon
+
+```bash
+npm run dev
+```
+now we can visit [http://localhost:3000/products](http://localhost:3000/products) in our browser to see the response.
+
+```javascript title="package.json" linenums="1" hl_lines="4-6"
+const express = require('express');
+const app = express()
+
+const morgan = require('morgan')
+// setup the logger
+app.use(morgan('dev'))
+app.get('/products', (req, res) => {
+    res.status(200).send(
+         {
+            'success': true,
+            'msg':'products is returned'}
+        );
+  })
+app.listen(3000, ()=>{
+    console.log(`server running on http://localhost:3000`);
+})
+```
+now if we send any request to server e,g [http://localhost:3000/products](http://localhost:3000/products) we'll see logs in the terminal.
