@@ -1,16 +1,9 @@
-const express = require('express');
-const morgan = require('morgan')
-const app = express()
-
-// setup the logger
-app.use(morgan('dev'))
-app.get('/products', (req, res) => {
-    res.status(200).send(
-         {
-            'success': true,
-            'msg':'products is returned'}
-        );
-  })
-app.listen(3000, ()=>{
-    console.log(`server running on http://localhost:3000`);
+const app = require('./app.js');
+const {PORT} = require('./secret.js');
+const connectDB = require('./config/db.js');
+// responible for instantiating the server
+app.listen(PORT, async()=>{
+    console.log(`server running on http://localhost:${PORT}`);
+    await connectDB();
 })
+

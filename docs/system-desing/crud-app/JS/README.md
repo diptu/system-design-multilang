@@ -262,3 +262,16 @@ app.listen(3000, ()=>{
 })
 ```
 now if we send any request to server e,g [http://localhost:3000/products](http://localhost:3000/products) we'll see logs in the terminal.
+
+
+??? info "Express Middleware"
+
+    Express middleware are functions that have access to the request object (`req`), the response object (`res`) and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named `next`.
+
+    Middleware functions can perform the following tasks:<br>
+
+    - Execute any code.<br>
+    -  Make changes to the request and the response objects.<br>
+    - End the request-response cycle.<br>
+    - Call the next middleware function in the stack.<br>
+    - If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.<br>
