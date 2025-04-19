@@ -3,7 +3,8 @@ const {userRouter} = require('./routers/userRouter.js')
 const createError = require('http-errors')
 const bodyParser = require('body-parser')
 const rateLimit = require('express-rate-limit')
-const morgan = require('morgan')
+const morgan = require('morgan');
+const { seedRouter } = require('./routers/seedRouter.js');
 const app = express()
 
 
@@ -22,8 +23,12 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 
 base_user_url = '/api/users'
+seed_user_url = '/api/seed'
+
 // mount the router on the app
 app.use(`${base_user_url}`, userRouter);
+app.use(`${seed_user_url}`, seedRouter);
+
 
 app.get('/products', (req, res) => {
     res.status(200).json(

@@ -86,4 +86,4 @@ const User = model('User',Users);
 
 
 
-module.exports = User;
+module.exports = {User};
