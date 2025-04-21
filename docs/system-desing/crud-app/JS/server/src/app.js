@@ -1,5 +1,8 @@
 const express = require('express');
 const {userRouter} = require('./routers/userRouter.js')
+const {errorResponse} = require('./helper/responsehandler.js')
+
+
 const createError = require('http-errors')
 const bodyParser = require('body-parser')
 const rateLimit = require('express-rate-limit')
@@ -47,11 +50,14 @@ app.use(( req, res, next) => {
 
 // server error handling => all errors will be logged here
 app.use((err, req, res, next) => {
-   return res.status(err.status || 500).json({
-      success : false,
-      message : err.message
-      })
-    
+  //  return res.status(err.status || 500).json({
+  //     success : false,
+  //     message : err.message
+  //     })
+  return errorResponse(res,{
+    statusCode:500,
+    message:err.message
+  });
 })
 
 module.exports = app
