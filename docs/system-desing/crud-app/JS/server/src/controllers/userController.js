@@ -3,6 +3,10 @@ const createError = require('http-errors')
 const { User } = require('../models/userModel.js')
 const { findById } = require('../services/findById.js')
 const { successResponse } = require('../helper/responsehandler.js')
+const { deleteImage } = require('../helper/DeleteImage.js')
+const { createJsonWebToken } = require('../helper/Jsonwebtoken.js')
+
+const {JWT_ACTIVATION_KEY,JWT_EXPIRE} = require('../secret.js')
 
 
 // GET :'/api/users'
@@ -49,40 +53,82 @@ const getUsers = async (req, res, next) => {
   }
 }
 
+// GET :'/api/users/:id'
+const registerUser = async (req, res, next) => {
+  try {
+    const { first_name, last_name, email, password, phone } = req.body;
+    const new_user = {
+      first_name,
+      last_name,
+      email,
+      password,
+      phone
+    }
+    const userExists = await User.exists({ email: email });
+    if (userExists)
+      throw createError(409, `User with email : ${email} already exist`);
+
+    // create jwt
+    const token = createJsonWebToken({ first_name, last_name, email, password, phone },
+    JWT_ACTIVATION_KEY,
+    JWT_EXPIRE
+  );
+
+    successResponse(res, {
+      message: 'User wwas created successfully',
+      statusCode: 201,
+      payload: {
+        user: token
+      }
+    });
+
+    
+  } catch (error) {
+    next(error);
+  }
+
+}
+
 
 
 // GET :'/api/users/:id'
 const getUser = async (req, res, next) => {
-    const userId = req.params.id;
-        // return all but password field
-        const options = { password: 0 }
-    const user = await findById(userId,options);
+  try {
+    const id = req.params.id || "";
+    // return all but password field
+    const options = { password: 0 }
 
-    return successResponse(res, {
+    const user = await findById(User, id, options);
+    successResponse(res, {
+      message: 'User information returned successfully',
       statusCode: 200,
-      message: 'User returned!',
       payload: {
-        data: user,
+        user: user
       }
-    })
+    });
+  } catch (error) {
+    next(error);
+  }
 
 }
 
+
+// Delete :'/api/users/register'
 const deleteUser = async (req, res, next) => {
   try {
     const id = req.params.id;
     // return all but password field
-    const options = { password: 0}
+    const options = { password: 0 }
     const model = User
 
-    const user = await findById(model, id,options);
+    const user = await findById(model, id, options);
     const userImage = user.image;
-    
+
     deleteImage(userImage);
 
-    await model.deleteOne({
-      _id : id, 
-      isAdmin : false,
+    await model.findByIdAndDelete({
+      _id: id,
+      isAdmin: false,
     });
     successResponse(res, {
       message: 'User was removed successfully',
@@ -93,4 +139,4 @@ const deleteUser = async (req, res, next) => {
   }
 
 }
-module.exports = { getUsers, getUser,deleteUser };
+module.exports = { getUsers, getUser, deleteUser, registerUser };

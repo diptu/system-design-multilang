@@ -1,23 +1,22 @@
 const createError = require('http-errors')
-const mongoose = require('mongoose')
-const { User } = require('../models/userModel.js')
-const findById = async (userId, options={}) => {
+const { mongoose } = require('mongoose');
+const findById = async(model,id, options={})=>{
     try {
 
-        const item = await User.findById(userId, options);
-        // count num users
-        const count = await User.findById(userId).countDocuments();
+    const item = await model.findById(id, options);
 
-        if (!item) throw createError(404, `item with id:${userId} dosen't exist`);
-
-        return item;
+    if(!item) {
+      throw createError(404, `${model.modelName} doesn\'t exist`);
+    }
+    return item;
+        
     } catch (error) {
-        if (error instanceof mongoose.Error) {
-            throw createError(400, 'Invalid item');
+        if(error instanceof mongoose.Error) {
+            throw createError(404, `Invalid ${model.modelName} id!`);
         }
         throw error;
+        
     }
-
 }
 
-module.exports = { findById }
+module.exports = {findById};

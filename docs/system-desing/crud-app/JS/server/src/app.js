@@ -24,6 +24,8 @@ app.use(morgan('dev'))
 
 // parse application/json
 app.use(bodyParser.json())
+// parse url encodded request e,g, create user
+app.use(express.urlencoded({ extended: true }));
 
 base_user_url = '/api/users'
 seed_user_url = '/api/seed'

@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const {User} = require('../model/userModel');
+const {User} = require('../models/userModel.js');
 const deleteImage = async(userImage) => {
    try {
     
