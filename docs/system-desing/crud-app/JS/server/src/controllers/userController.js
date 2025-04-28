@@ -130,7 +130,7 @@ const registerUser = async (req, res, next) => {
     }
     // send email
     try {
-      await EmailWithNodeMailer(mailData);
+      // await EmailWithNodeMailer(mailData);
     } catch (error) {
       return next(createError(500, 'Failed to send varification email'));
     }

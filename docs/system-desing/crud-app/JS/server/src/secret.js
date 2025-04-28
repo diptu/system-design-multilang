@@ -5,11 +5,13 @@ const DB_NAME = process.env.DB_NAME || 'crud-api';
 const DEFAULT_USER_IMAGE = process.env.DEFAULT_USER_IMAGE || 'public/images/users/user-default.png';
 const MONGO_DB_URL = process.env.MONGO_DB_URL || `mongodb://localhost:27017/${DB_NAME}`;
 
-JWT_ACTIVATION_KEY = process.env.JWT_ACTIVATION_KEY || "NAD1m6K3CStyHbZwhaWqRb12ebQSN7BE"
+JWT_ACTIVATION_KEY = process.env.JWT_ACTIVATION_KEY || "NAD1m6K3CStyHbZwhaWqRb12ebQSN7BE";
 JWT_EXPIRE = process.env.JWT_EXPIRE || "10m"
 SMTP_USER = process.env.SMTP_USER 
 SMTP_PASS = process.env.SMTP_PASS
 CLIENT_URL = process.env.CLIENT_URL
+UPLOAD_DIR = process.env.UPLOAD_DIR || "public/images/users";
+
 
 
 module.exports = {PORT,
@@ -19,5 +21,6 @@ module.exports = {PORT,
     JWT_EXPIRE,
     SMTP_USER,
     SMTP_PASS,
-    CLIENT_URL
+    CLIENT_URL,
+    UPLOAD_DIR
 }
